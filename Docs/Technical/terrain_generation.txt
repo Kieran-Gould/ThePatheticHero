@@ -1,0 +1,24 @@
+HEIGHT 0-4
+
+RUN EACH HEIGHT FOR 10-25 BLOCKS
+
+WHEN MAKING EACH BLOCK, FILL SPACE BELOW WITH BLOCKS, USING (WORLDHEIGHT+HEIGHT) VERTICAL DOWN
+
+PLACE ENEMIES EVERY 30-50 BLOCKS, SPAWN IN SKY, THEN DROP DOWN UNTIL THEY COLLIDE WITH TERRAIN
+
+
+GAME IS 32X24 OBJECTS (EACH OBJECT BEING 32X32)
+
+
+
+VARIABLES
+generator_height = Height of current chunk (IntRand) 1 to 5
+
+generator_length = Length of current chunk (IntRand) 15 to 30
+
+generator_time = Keeps track of how long in game time until we generate new chunk (Int)
+generator_mob
+
+(FYI: 'Chunks' are blocks of terrain before the settings change)
+
+Basically, we're generating from the left side of the room to the right until everything is made, we set a random height from 0-4, where 0 is lowest and  is the highest, 0 is actually a position roughly 6 blocks from the bottom of the room, so the floor can reach a height from 6 to 11 blocks from the bottom of the room (assume room is nornal 32x24 block size). We place a block in Y0, so the very left of the room, then we calculate how many blocks from the floor this object is, using (WORLDHEIGHT+GENERATORHEIGHT-1), and fill in the space below it with blocks until we hit the bottom. From there, we set a random length, this is how long we will generate blocks at this level for before switching to a new height (meaning the player has to jump or drop down), this is calculated from a random number between 0-1 (essentually TRUE/FALSE), if the number is True, we raise the floor by one block unless it is already at max height, in which case we lower it, if the number is False, we lower the floor unless it is already t the bottom, in which case we raise it. What we have here, is a generator that makes 'chunks' of terrain, with certain heights and length, before changing up it's variables and generating again, all the way in a loop from the left to right of the room. For spawning in mobs, we use a generator from 0-2, if the number lands on 0, we place a single mob at a random location in that chunk, spawning it at the correct height, the mob doesnt need to move so no complex AI is needed. 
